@@ -26,11 +26,45 @@ const dbcunnect = async () => {
 }
 // user Schema
 const userSchema = new mongoose.Schema({
-    name: {
+    seller_name: {
         type: String,
+        require: true
     },
-    email: {
+    seller_img: {
         type: String,
+        require: true
+    },
+    seller_email: {
+        type: String,
+        require: true
+    },
+    seller_rating: {
+        type: Number,
+        require: true
+    },
+    toy_name: {
+        type: String,
+        require: true
+    },
+    toy_img: {
+        type: String,
+        require: true
+    },
+    toy_price: {
+        type: Number,
+        require: true
+    },
+    available_quantity: {
+        type: Number,
+        require: true
+    },
+    toy_rating: {
+        type: Number,
+        require: true
+    },
+    toy_description: {
+        type: String,
+        require: true
     },
     date: { type: Date, default: Date.now },
 
@@ -44,12 +78,19 @@ const userModel = mongoose.model('users', userSchema);
 // data set
 
 app.post('/postData', async (req, res) => {
-    const userDetles = req.body
-    console.log(userDetles)
+    const userDetles = req.body;
     try {
         const newUser = new userModel({
-            name: userDetles.name,
-            email: userDetles.email,
+            seller_name: userDetles.seller_name,
+            seller_img: userDetles.seller_img,
+            seller_email: userDetles.seller_email,
+            seller_rating: userDetles.seller_rating,
+            toy_name: userDetles.toy_name,
+            toy_img: userDetles.toy_img,
+            toy_price: userDetles.toy_price,
+            available_quantity: userDetles.available_quantity,
+            toy_rating: userDetles.toy_rating,
+            toy_description: userDetles.toy_description,
         })
         const save = await newUser.save();
         if (save) {
@@ -58,13 +99,7 @@ app.post('/postData', async (req, res) => {
     } catch (error) {
         res.status(404).send(error.message)
     }
-})
-
-
-
-
-
-
+});
 
 // Data gate
 app.get('/', async (req, res) => {
@@ -85,9 +120,7 @@ app.get('/', async (req, res) => {
 app.delete('/delet/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const delet = await userModel.findByIdAndDelete({ _id: id })
-        console.log(delet)
-        res.send(delet);
+        await userModel.findByIdAndDelete({ _id: id })
     } catch (error) {
         res.status(502).send(error.message)
     }
@@ -115,14 +148,20 @@ app.patch('/user/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const updetDeta = req.body;
-        const upded = await userModel.findByIdAndUpdate({ _id: id }, {
+        await userModel.findByIdAndUpdate({ _id: id }, {
             $set: {
-                name: updetDeta.name,
-                email: updetDeta.email,
+                seller_name: updetDeta.seller_name,
+                seller_img: updetDeta.seller_img,
+                seller_email: updetDeta.seller_email,
+                seller_rating: updetDeta.seller_rating,
+                toy_name: updetDeta.toy_name,
+                toy_img: updetDeta.toy_img,
+                toy_price: updetDeta.toy_price,
+                available_quantity: updetDeta.available_quantity,
+                toy_rating: updetDeta.toy_rating,
+                toy_description: updetDeta.toy_description,
             }
-        })
-        console.log(upded)
-        res.send(upded)
+        });
     } catch (error) {
         res.status(502).send(error.message);
     }
