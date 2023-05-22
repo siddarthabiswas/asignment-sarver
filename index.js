@@ -16,7 +16,7 @@ const PASS = process.env.PASS
 const mongoose = require('mongoose');
 
 // Db cunnect
-const dbcunnect = async () => {
+const  dbcunnect = async () => {
     try {
         await mongoose.connect(`mongodb+srv://${UID}:${PASS}@cluster0.orvq7xp.mongodb.net/asignment?retryWrites=true&w=majority`);
         console.log('Db is connect')
